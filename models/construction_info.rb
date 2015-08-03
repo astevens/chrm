@@ -1,11 +1,11 @@
-class ConstructionInfo < Sequel::Model
-  set_dataset :construction_infos
+class ConstructionInfo
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # type_id Fixnum
-  # text String
-  # id Fixnum
-  many_to_one :style
-  many_to_one :type
+  field :style_id, :type => Integer
+  field :type_id, :type => Integer
+  field :text, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :type
 end

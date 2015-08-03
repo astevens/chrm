@@ -1,9 +1,9 @@
-class Division < Sequel::Model
-  set_dataset :divisions
+class Division
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # manufacturer_id Fixnum
-  # name String
-  many_to_one :manufacturer
+  field :id, :type => Integer
+  field :manufacturer_id, :type => Integer
+  field :name, :type => String
+
+  belongs_to :manufacturer
 end

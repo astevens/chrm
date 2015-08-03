@@ -1,14 +1,14 @@
-class Version < Sequel::Model
-  set_dataset :versions
+class Version
+  include Mongoid::Document
 
-  # Columns
-  # product String
-  # data_version String
-  # data_release_id Fixnum
-  # schema_name String
-  # schema_version Float
-  # country String
-  # language String
-  # id Fixnum
-  many_to_one :data_release
+  field :product, :type => String
+  field :data_version, :type => String
+  field :data_release_id, :type => Integer
+  field :schema_name, :type => String
+  field :schema_version, :type => Float
+  field :country, :type => String
+  field :language, :type => String
+  field :id, :type => Integer
+
+  belongs_to :data_release
 end

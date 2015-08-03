@@ -1,8 +1,8 @@
-class StandardHeader < Sequel::Model
-  set_dataset :standard_headers
+class StandardHeader
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
+  field :id, :type => Integer
+  field :text, :type => String
+
 
 end

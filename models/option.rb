@@ -1,21 +1,21 @@
-class Option < Sequel::Model
-  set_dataset :options
+class Option
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # option_header_id Fixnum
-  # sequence Fixnum
-  # code String
-  # desc String
-  # option_kind_id Fixnum
-  # category_list String
-  # pon String
-  # ext_description String
-  # supported_logic String
-  # unsupported_logic String
-  # price_notes String
-  # id Fixnum
-  many_to_one :style
-  many_to_one :option_header
-  many_to_one :option_kind
+  field :style_id, :type => Integer
+  field :option_header_id, :type => Integer
+  field :sequence, :type => Integer
+  field :code, :type => String
+  field :desc, :type => String
+  field :option_kind_id, :type => Integer
+  field :category_list, :type => String
+  field :pon, :type => String
+  field :ext_description, :type => String
+  field :supported_logic, :type => String
+  field :unsupported_logic, :type => String
+  field :price_notes, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :option_header
+  belongs_to :option_kind
 end

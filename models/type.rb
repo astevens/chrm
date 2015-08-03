@@ -1,8 +1,8 @@
-class Type < Sequel::Model
-  set_dataset :types
+class Type
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
+  field :id, :type => Integer
+  field :text, :type => String
+
 
 end

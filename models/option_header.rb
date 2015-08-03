@@ -1,8 +1,8 @@
-class OptionHeader < Sequel::Model
-  set_dataset :option_headers
+class OptionHeader
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
+  field :id, :type => Integer
+  field :text, :type => String
+
 
 end

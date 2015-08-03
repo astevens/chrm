@@ -1,10 +1,10 @@
-class BodyStyle < Sequel::Model
-  set_dataset :body_styles
+class BodyStyle
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # text String
-  # is_primary String
-  # id Fixnum
-  many_to_one :style
+  field :style_id, :type => Integer
+  field :text, :type => String
+  field :is_primary, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
 end

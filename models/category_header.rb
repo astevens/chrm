@@ -1,9 +1,9 @@
-class CategoryHeader < Sequel::Model
-  set_dataset :category_headers
+class CategoryHeader
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
-  # sequence Fixnum
+  field :id, :type => Integer
+  field :text, :type => String
+  field :sequence, :type => Integer
+
 
 end

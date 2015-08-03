@@ -1,13 +1,13 @@
-class Standard < Sequel::Model
-  set_dataset :standards
+class Standard
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # standard_header_id Fixnum
-  # sequence Fixnum
-  # text String
-  # category_list String
-  # id Fixnum
-  many_to_one :style
-  many_to_one :standard_header
+  field :style_id, :type => Integer
+  field :standard_header_id, :type => Integer
+  field :sequence, :type => Integer
+  field :text, :type => String
+  field :category_list, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :standard_header
 end

@@ -1,8 +1,8 @@
-class MarketClass < Sequel::Model
-  set_dataset :market_classes
+class MarketClass
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
+  field :id, :type => Integer
+  field :text, :type => String
+
 
 end

@@ -1,8 +1,8 @@
-class OptionKind < Sequel::Model
-  set_dataset :option_kinds
+class OptionKind
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
+  field :id, :type => Integer
+  field :text, :type => String
+
 
 end

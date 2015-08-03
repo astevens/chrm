@@ -1,11 +1,11 @@
-class Category < Sequel::Model
-  set_dataset :categories
+class Category
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
-  # type_filter String
-  # category_header_id Fixnum
-  # user_friendly_name String
-  many_to_one :category_header
+  field :id, :type => Integer
+  field :text, :type => String
+  field :type_filter, :type => String
+  field :category_header_id, :type => Integer
+  field :user_friendly_name, :type => String
+
+  belongs_to :category_header
 end

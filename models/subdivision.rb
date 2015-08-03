@@ -1,12 +1,12 @@
-class Subdivision < Sequel::Model
-  set_dataset :subdivisions
+class Subdivision
+  include Mongoid::Document
 
-  # Columns
-  # model_year Fixnum
-  # division_id Fixnum
-  # id Fixnum
-  # hist_subdivision_id Fixnum
-  # name String
-  many_to_one :division
-  many_to_one :hist_subdivision
+  field :model_year, :type => Integer
+  field :division_id, :type => Integer
+  field :id, :type => Integer
+  field :hist_subdivision_id, :type => Integer
+  field :name, :type => String
+
+  belongs_to :division
+  belongs_to :hist_subdivision
 end

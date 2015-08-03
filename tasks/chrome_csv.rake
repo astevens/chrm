@@ -45,7 +45,7 @@ namespace :db do
       puts cols = build_columns(line, table_name)
       cols['id'] = 0 unless cols.key?('id')
 
-      build_migration(file_index, table_name, cols)
+      # build_migration(file_index, table_name, cols)
       build_model(table_name, cols)
     end
   end
@@ -56,17 +56,20 @@ namespace :db do
     files = Dir.glob path
     puts "#{files.length} files to process"
 
-    Sequel::Model.db.run('SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";')
+    # Sequel::Model.db.run('SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";')
 
     files.each do |file|
       puts "\n#{file}"
       puts table_name = build_table_name(file)
+      puts klass = table_name.singularize.camelize.constantize
 
       line = single_csv_line(file)
       puts cols = build_columns(line, table_name)
 
       load_csv(file, cols.keys) do |lines_chunk|
-        Sequel::Model.db[table_name.to_sym].multi_insert(lines_chunk)
+        lines_chunk.each do |line|
+          klass.create(line)
+        end
       end
     end
   end
@@ -125,52 +128,61 @@ def build_columns(line, table_name)
   end]
 end
 
-def build_defs(cols)
-  cols.map do |k, v|
-    if v.is_a?(String) && v.length > 100
-      puts "#{k}:#{v.class} - #{v.length}"
-      "      #{v.class} :#{k}, :size => 2000"
-    elsif k == 'id'
-      puts "#{k}:#{v.class} - #{v}"
-      "      primary_key :#{k}"
-    elsif k =~/_id$/
-      puts "#{k}:#{v.class} - #{v}"
-      "      #{v.class} :#{k}, :index => true"
-    else
-      puts "#{k}:#{v.class} - #{v}"
-      "      #{v.class} :#{k}"
-    end
-  end
-end
+# def build_defs(cols)
+#   cols.map do |k, v|
+#     if v.is_a?(String) && v.length > 100
+#       puts "#{k}:#{v.class} - #{v.length}"
+#       "      #{v.class} :#{k}, :size => 2000"
+#     elsif k == 'id'
+#       puts "#{k}:#{v.class} - #{v}"
+#       "      primary_key :#{k}"
+#     elsif k =~/_id$/
+#       puts "#{k}:#{v.class} - #{v}"
+#       "      #{v.class} :#{k}, :index => true"
+#     else
+#       puts "#{k}:#{v.class} - #{v}"
+#       "      #{v.class} :#{k}"
+#     end
+#   end
+# end
 
-def build_migration(file_index, table_name, cols)
-  col_defs = build_defs(cols)
+# def build_migration(file_index, table_name, cols)
+#   col_defs = build_defs(cols)
 
-  migration_text = <<-EOF
-Sequel.migration do
-  change do
-    create_table :#{table_name} do
-#{col_defs.join("\n")}
-    end
-  end
-end
-EOF
-  File.open(Padrino.root + "/db/migrate/#{(file_index + 1).to_s.rjust(3, '0')}_#{table_name}.rb", 'w'){|f| f.write migration_text}
-end
+#   migration_text = <<-EOF
+# Sequel.migration do
+#   change do
+#     create_table :#{table_name} do
+# #{col_defs.join("\n")}
+#     end
+#   end
+# end
+# EOF
+#   File.open(Padrino.root + "/db/migrate/#{(file_index + 1).to_s.rjust(3, '0')}_#{table_name}.rb", 'w'){|f| f.write migration_text}
+# end
 
 def build_model(table_name, cols)
   model_name = table_name.singularize.camelize
-  col_names = cols.map{|k, v| "  # #{k} #{v.class}"}
-  associations = cols.select{|k, v| k =~ /_id$/}.map{|k, v| "  many_to_one :#{k[0..-4]}"}
+  col_names = cols.map{|k, v| "  field :#{k}, :type => #{mongoid_class(v)}"}
+  associations = cols.select{|k, v| k =~ /_id$/}.map{|k, v| "  belongs_to :#{k[0..-4]}"}
 
   model_text = <<-EOF
-class #{model_name} < Sequel::Model
-  set_dataset :#{table_name}
+class #{model_name}
+  include Mongoid::Document
 
-  # Columns
 #{col_names.join("\n")}
+
 #{associations.join("\n")}
 end
 EOF
   File.open(Padrino.root + "/models/#{table_name.singularize}.rb", 'w'){|f| f.write model_text}
+end
+
+def mongoid_class(obj)
+  case obj
+  when Fixnum
+    Integer
+  else
+    obj.class
+  end
 end

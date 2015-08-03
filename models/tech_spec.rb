@@ -1,13 +1,13 @@
-class TechSpec < Sequel::Model
-  set_dataset :tech_specs
+class TechSpec
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # tech_title_id Fixnum
-  # sequence Fixnum
-  # text String
-  # condition String
-  # id Fixnum
-  many_to_one :style
-  many_to_one :tech_title
+  field :style_id, :type => Integer
+  field :tech_title_id, :type => Integer
+  field :sequence, :type => Integer
+  field :text, :type => String
+  field :condition, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :tech_title
 end

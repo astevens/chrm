@@ -1,16 +1,16 @@
-class Model < Sequel::Model
-  set_dataset :models
+class Model
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # hist_model_id Fixnum
-  # year Fixnum
-  # division_id Fixnum
-  # subdivision_id Fixnum
-  # name String
-  # effective_date String
-  # comment String
-  many_to_one :hist_model
-  many_to_one :division
-  many_to_one :subdivision
+  field :id, :type => Integer
+  field :hist_model_id, :type => Integer
+  field :year, :type => Integer
+  field :division_id, :type => Integer
+  field :subdivision_id, :type => Integer
+  field :name, :type => String
+  field :effective_date, :type => String
+  field :comment, :type => String
+
+  belongs_to :hist_model
+  belongs_to :division
+  belongs_to :subdivision
 end

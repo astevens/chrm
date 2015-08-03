@@ -1,8 +1,8 @@
-class Manufacturer < Sequel::Model
-  set_dataset :manufacturers
+class Manufacturer
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # name String
+  field :id, :type => Integer
+  field :name, :type => String
+
 
 end

@@ -1,12 +1,12 @@
-class TechTitle < Sequel::Model
-  set_dataset :tech_titles
+class TechTitle
+  include Mongoid::Document
 
-  # Columns
-  # tech_title_id Fixnum
-  # sequence Fixnum
-  # text String
-  # tech_header_id Fixnum
-  # id Fixnum
-  many_to_one :tech_title
-  many_to_one :tech_header
+  field :tech_title_id, :type => Integer
+  field :sequence, :type => Integer
+  field :text, :type => String
+  field :tech_header_id, :type => Integer
+  field :id, :type => Integer
+
+  belongs_to :tech_title
+  belongs_to :tech_header
 end

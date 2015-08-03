@@ -1,6 +1,6 @@
 module Chrm
   class App < Padrino::Application
-    register ScssInitializer
+    register LessInitializer
     register Padrino::Mailer
     register Padrino::Helpers
 

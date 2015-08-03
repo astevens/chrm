@@ -1,14 +1,14 @@
-class NormalizedConstructionInfo < Sequel::Model
-  set_dataset :normalized_construction_infos
+class NormalizedConstructionInfo
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # label_id Fixnum
-  # value String
-  # qualifier String
-  # qualifier_sequence String
-  # group Fixnum
-  # id Fixnum
-  many_to_one :style
-  many_to_one :label
+  field :style_id, :type => Integer
+  field :label_id, :type => Integer
+  field :value, :type => Integer
+  field :qualifier, :type => String
+  field :qualifier_sequence, :type => String
+  field :group, :type => Integer
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :label
 end

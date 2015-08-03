@@ -1,15 +1,15 @@
-class Price < Sequel::Model
-  set_dataset :prices
+class Price
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # sequence Fixnum
-  # option_code String
-  # rule_desc String
-  # condition String
-  # invoice Float
-  # msrp Float
-  # state String
-  # id Fixnum
-  many_to_one :style
+  field :style_id, :type => Integer
+  field :sequence, :type => Integer
+  field :option_code, :type => String
+  field :rule_desc, :type => String
+  field :condition, :type => String
+  field :invoice, :type => Float
+  field :msrp, :type => Float
+  field :state, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
 end

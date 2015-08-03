@@ -1,9 +1,9 @@
-class TechTitleHeader < Sequel::Model
-  set_dataset :tech_title_headers
+class TechTitleHeader
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
-  # sequence Fixnum
+  field :id, :type => Integer
+  field :text, :type => String
+  field :sequence, :type => Integer
+
 
 end

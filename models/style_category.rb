@@ -1,13 +1,13 @@
-class StyleCategory < Sequel::Model
-  set_dataset :style_categories
+class StyleCategory
+  include Mongoid::Document
 
-  # Columns
-  # style_id Fixnum
-  # category_id Fixnum
-  # feature_type String
-  # sequence Fixnum
-  # state String
-  # id Fixnum
-  many_to_one :style
-  many_to_one :category
+  field :style_id, :type => Integer
+  field :category_id, :type => Integer
+  field :feature_type, :type => String
+  field :sequence, :type => Integer
+  field :state, :type => String
+  field :id, :type => Integer
+
+  belongs_to :style
+  belongs_to :category
 end

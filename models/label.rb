@@ -1,10 +1,10 @@
-class Label < Sequel::Model
-  set_dataset :labels
+class Label
+  include Mongoid::Document
 
-  # Columns
-  # id Fixnum
-  # text String
-  # type_id Fixnum
-  # sequence Fixnum
-  many_to_one :type
+  field :id, :type => Integer
+  field :text, :type => String
+  field :type_id, :type => Integer
+  field :sequence, :type => Integer
+
+  belongs_to :type
 end
