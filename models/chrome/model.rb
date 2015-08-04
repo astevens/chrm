@@ -11,11 +11,9 @@ module Chrome
     field :effective_date, :type => String
     field :comment, :type => String
 
-    belongs_to :hist_model
     belongs_to :division
     belongs_to :subdivision
 
-    index({:hist_model_id => 1})
     index({:division_id => 1})
     index({:subdivision_id => 1})
   end

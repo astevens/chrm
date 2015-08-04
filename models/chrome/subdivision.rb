@@ -9,9 +9,7 @@ module Chrome
     field :name, :type => String
 
     belongs_to :division
-    belongs_to :hist_subdivision
 
     index({:division_id => 1})
-    index({:hist_subdivision_id => 1})
   end
 end

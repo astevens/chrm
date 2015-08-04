@@ -62,9 +62,17 @@ namespace :db do
       line = single_csv_line(file)
       puts headers = build_columns(line, table_name).keys
 
-      load_csv(file, headers) do |line|
-        line.delete_if {|k, v| v.blank?}
-        klass.find_or_create_by(line)
+      load_csv(file, headers).each do |line|
+        line.delete_if{|k, v| v.blank?}
+
+        if line.key?(:id)
+          klass.find_or_create_by(line['id']) do |doc|
+            doc.set line.except(:id)
+          end
+        else
+          klass.find_or_create_by(line)
+        end
+        
       end
     end
   end
@@ -96,9 +104,7 @@ def load_csv(file, headers)
     :strings_as_keys => true,
     :remove_empty_values => false,
     :user_provided_headers => headers
-  ) do |chunk|
-    yield chunk
-  end
+  )
 end
 
 def single_csv_line(file)
