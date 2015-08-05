@@ -37,10 +37,8 @@ module Chrome
 
     belongs_to :model
     belongs_to :market_class
-    belongs_to :auto_builder_style
 
     index({:model_id => 1})
     index({:market_class_id => 1})
-    index({:auto_builder_style_id => 1})
   end
 end

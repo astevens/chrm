@@ -72,7 +72,7 @@ namespace :db do
         else
           klass.find_or_create_by(line)
         end
-        
+
       end
     end
   end
@@ -145,7 +145,7 @@ def build_model(table_name, cols)
   model_name = build_class_name(table_name)
   file_name = model_name.underscore
   col_names = cols.map{|k, v| "    field :#{k}, :type => #{mongoid_class(v)}"}
-  association_cols = cols.select{|k, v| k =~ /_id$/}
+  association_cols = cols.select{|k, v| k =~ /_id$/ && k !~ /hist_|auto_builder/}
   associations = association_cols.map{|k, v| "    belongs_to :#{k[0..-4]}"}
   indexes = association_cols.map{|k, v| "    index({:#{k} => 1})"}
 
