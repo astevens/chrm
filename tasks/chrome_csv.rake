@@ -24,7 +24,7 @@ COLUMN_REPLACEMENTS = {
   'options.kind_id' => 'option_kind_id',
   'styles.mkt_class_id' => 'market_class_id',
   'tech_specs.title_id' => 'tech_title_id',
-  'tech_titles.header_id' => 'tech_header_id',
+  'tech_titles.header_id' => 'tech_title_header_id',
   'tech_titles.title_id' => 'tech_title_id',
   'tech_titles.title' => 'text'
 }
@@ -50,6 +50,9 @@ namespace :db do
 
   desc "Populate tables from Chrome CSV files"
   task :load_data, [:path] => :environment do |_, args|
+    Moped.logger = Logger.new($stdout)
+    Moped.logger.level = Logger::DEBUG
+
     path = File.join args[:path], '*.txt'
     files = Dir.glob path
     puts "#{files.length} files to process"
@@ -65,14 +68,7 @@ namespace :db do
       load_csv(file, headers).each do |line|
         line.delete_if{|k, v| v.blank?}
 
-        if line.key?(:id)
-          klass.find_or_create_by(line['id']) do |doc|
-            doc.set line.except(:id)
-          end
-        else
-          klass.find_or_create_by(line)
-        end
-
+        klass.find_or_create_by(line)
       end
     end
   end
@@ -97,7 +93,8 @@ def build_ns_class_name(table_name)
 end
 
 def load_csv(file, headers)
-  SmarterCSV.process(file,
+  puts "reading #{file}..."
+  csv = SmarterCSV.process(file,
     :file_encoding => "iso-8859-1",
     :quote_char => '~',
     :downcase_header => false,
@@ -105,6 +102,8 @@ def load_csv(file, headers)
     :remove_empty_values => false,
     :user_provided_headers => headers
   )
+  puts "#{file} loaded."
+  csv
 end
 
 def single_csv_line(file)
