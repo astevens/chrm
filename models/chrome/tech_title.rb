@@ -5,12 +5,12 @@ module Chrome
     field :tech_title_id, :type => Integer
     field :sequence, :type => Integer
     field :text, :type => String
-    field :tech_header_id, :type => Integer
+    field :tech_title_header_id, :type => Integer
 
     belongs_to :tech_title
-    belongs_to :tech_header
+    belongs_to :tech_title_header
 
     index({:tech_title_id => 1})
-    index({:tech_header_id => 1})
+    index({:tech_title_header_id => 1})
   end
 end

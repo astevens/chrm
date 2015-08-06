@@ -26,7 +26,8 @@ COLUMN_REPLACEMENTS = {
   'tech_specs.title_id' => 'tech_title_id',
   'tech_titles.header_id' => 'tech_title_header_id',
   'tech_titles.title_id' => 'tech_title_id',
-  'tech_titles.title' => 'text'
+  'tech_titles.title' => 'text',
+  'versions.data_release_id' => 'data_release'
 }
 
 namespace :db do
